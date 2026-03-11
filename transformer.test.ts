@@ -158,4 +158,13 @@ describe("Tester for EAN og produktvekt", () => {
 
     expect(result["Barcode"]).toBe("7312600055469");
   });
+  test("Sjekker at udefinert EAN bare er udefinert", () => {
+    const rawRow = {
+      EAN: "",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result["Barcode"]).toBeUndefined;
+  });
 });
