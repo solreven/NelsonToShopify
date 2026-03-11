@@ -10,9 +10,10 @@ export const transformRow = (row: any): ShopifyRow => {
   const rawValueName = row["Benevnelse (no)"];
   const priceInput = String(row["Anbefalt salgspris"] || "");
   let finalPrice: number | undefined;
-  if (priceInput.includes("NOK")) {
-    const cleanPrice = priceInput.replace("NOK:", "");
-    finalPrice = Number(cleanPrice);
+  const match = priceInput.match(/NOK:([\d.]+)/);
+  if (match) {
+    // match[1] inneholder det som er inni parentesen i Regex-en (selve tallet)
+    finalPrice = Number(match[1]);
   }
   return {
     Title: rawValueName ? String(rawValueName) : undefined,

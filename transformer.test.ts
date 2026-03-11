@@ -68,4 +68,15 @@ describe("Tester for pris", () => {
 
     expect(result.Price).toBeUndefined();
   });
+
+  test("Kan fiske ut norsk pris blant mange andre priser", () => {
+    const rawRow = {
+      "Anbefalt salgspris":
+        "SEK:1049.00|NOK:1159.00|FI-EUR:105.50|DKK:939.00|DE-EUR:105.50|PLN:456.09",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result.Price).toBe(1159.0);
+  });
 });
