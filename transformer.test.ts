@@ -31,3 +31,41 @@ describe("Tests for simple conversions", () => {
     expect(result.Title).toBeUndefined();
   });
 });
+describe("Tester for pris", () => {
+  test("Kan håndtere ingen pris", () => {
+    const rawRow = {
+      "Anbefalt salgspris": "",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result.Price).toBeUndefined();
+  });
+  test("Kan håndtere en enkel pris", () => {
+    const rawRow = {
+      "Anbefalt salgspris": "NOK:79.00",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result.Price).toBe(79.0);
+  });
+  test("Kan håndtere en enkel pris som ikke er norsk", () => {
+    const rawRow = {
+      "Anbefalt salgspris": "SEK:79.00",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result.Price).toBeUndefined();
+  });
+  test("Kan håndtere flere priser som ikke er norske", () => {
+    const rawRow = {
+      "Anbefalt salgspris": "SEK:79.00|FI-EUR:8.00|DKK:79.00",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result.Price).toBeUndefined();
+  });
+});
