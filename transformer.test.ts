@@ -1,4 +1,5 @@
 import { transformRow } from "./transformer";
+import * as Papa from "papaparse";
 
 describe("Tests for simple conversions", () => {
   test("An article number 5546 produces the EAN 5546", () => {
@@ -119,4 +120,28 @@ describe("Skal mappe bilde og beskrivelse fra Nelson-data", () => {
 
     expect(result["Image Src"]).toBe("https://asset.com/bilde1.jpg");
   });
+  test("Skal fange opp bilder nummer 2-4 hvis de eksisterer", () => {
+    const nelsonRow = {
+      ResourceUrl1: "https://asset.com/bilde1.jpg",
+      ResourceUrl2: "https://asset.com/bilde2.jpg",
+      ResourceUrl3: "https://asset.com/bilde3.jpg",
+      ResourceUrl4: "https://asset.com/bilde4.jpg",
+    };
+
+    const result = transformRow(nelsonRow as any);
+
+    expect(result["Image Src 2"]).toBe("https://asset.com/bilde2.jpg");
+    expect(result["Image Src 3"]).toBe("https://asset.com/bilde3.jpg");
+    expect(result["Image Src 4"]).toBe("https://asset.com/bilde4.jpg");
+  });
+});
+test("PapaParse skal kvote beskrivelser som inneholder komma", () => {
+  const row = {
+    Title: "Test",
+    "Body (HTML)": "Dette er en tekst, med et komma.",
+  };
+
+  const csv = Papa.unparse([row]);
+
+  expect(csv).toContain('"Dette er en tekst, med et komma."');
 });

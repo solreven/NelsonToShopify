@@ -3,6 +3,9 @@ export interface ShopifyRow {
   SKU: number | undefined;
   Price?: number;
   "Image Src"?: string;
+  "Image Src 2"?: string;
+  "Image Src 3"?: string;
+  "Image Src 4"?: string;
   "Body (HTML)"?: string;
 }
 
@@ -23,5 +26,14 @@ export const transformRow = (row: any): ShopifyRow => {
       ? String(row["Beskrivelse (no)"])
       : undefined,
     "Image Src": row["ResourceUrl1"] ? String(row["ResourceUrl1"]) : undefined,
+    "Image Src 2": row["ResourceUrl2"]
+      ? String(row["ResourceUrl2"])
+      : undefined,
+    "Image Src 3": row["ResourceUrl3"]
+      ? String(row["ResourceUrl3"])
+      : undefined,
+    "Image Src 4": row["ResourceUrl4"]
+      ? String(row["ResourceUrl4"])
+      : undefined,
   };
 };
