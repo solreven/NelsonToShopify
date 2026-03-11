@@ -80,3 +80,43 @@ describe("Tester for pris", () => {
     expect(result.Price).toBe(1159.0);
   });
 });
+describe("Skal mappe bilde og beskrivelse fra Nelson-data", () => {
+  test("Tom beskrivelse gir tom body", () => {
+    const nelsonRow = {
+      "Beskrivelse (no)": "",
+    };
+
+    const result = transformRow(nelsonRow as any);
+
+    expect(result["Body (HTML)"]).toBeUndefined();
+  });
+  test("En beskrivelse gir en body", () => {
+    const nelsonRow = {
+      "Beskrivelse (no)": "En komplett løsning for hydroponisk dyrking...",
+    };
+
+    const result = transformRow(nelsonRow as any);
+
+    expect(result["Body (HTML)"]).toBe(
+      "En komplett løsning for hydroponisk dyrking...",
+    );
+  });
+  test("En tom resource url gir en tom image src", () => {
+    const nelsonRow = {
+      ResourceUrl1: "",
+    };
+
+    const result = transformRow(nelsonRow as any);
+
+    expect(result["Image Src"]).toBeUndefined();
+  });
+  test("En resource url gir en image src", () => {
+    const nelsonRow = {
+      ResourceUrl1: "https://asset.com/bilde1.jpg",
+    };
+
+    const result = transformRow(nelsonRow as any);
+
+    expect(result["Image Src"]).toBe("https://asset.com/bilde1.jpg");
+  });
+});
