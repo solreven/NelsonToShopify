@@ -7,6 +7,7 @@ export interface ShopifyRow {
   "Image Src 3"?: string;
   "Image Src 4"?: string;
   "Body (HTML)"?: string;
+  Barcode?: string;
 }
 
 export const transformRow = (row: any): ShopifyRow => {
@@ -35,5 +36,6 @@ export const transformRow = (row: any): ShopifyRow => {
     "Image Src 4": row["ResourceUrl4"]
       ? String(row["ResourceUrl4"])
       : undefined,
+    Barcode: row["EAN"] ? String(row["EAN"]) : undefined,
   };
 };

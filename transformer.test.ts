@@ -1,6 +1,17 @@
 import { transformRow } from "./transformer";
 import * as Papa from "papaparse";
 
+test("PapaParse skal kvote beskrivelser som inneholder komma", () => {
+  const row = {
+    Title: "Test",
+    "Body (HTML)": "Dette er en tekst, med et komma.",
+  };
+
+  const csv = Papa.unparse([row]);
+
+  expect(csv).toContain('"Dette er en tekst, med et komma."');
+});
+
 describe("Tests for simple conversions", () => {
   test("An article number 5546 produces the EAN 5546", () => {
     const rawRow = { "Art.nr.": "5546" };
@@ -32,6 +43,7 @@ describe("Tests for simple conversions", () => {
     expect(result.Title).toBeUndefined();
   });
 });
+
 describe("Tester for pris", () => {
   test("Kan håndtere ingen pris", () => {
     const rawRow = {
@@ -135,13 +147,15 @@ describe("Skal mappe bilde og beskrivelse fra Nelson-data", () => {
     expect(result["Image Src 4"]).toBe("https://asset.com/bilde4.jpg");
   });
 });
-test("PapaParse skal kvote beskrivelser som inneholder komma", () => {
-  const row = {
-    Title: "Test",
-    "Body (HTML)": "Dette er en tekst, med et komma.",
-  };
 
-  const csv = Papa.unparse([row]);
+describe("Tester for EAN og produktvekt", () => {
+  test("Mapper EAN til Barcode", () => {
+    const rawRow = {
+      EAN: "7312600055469",
+    };
 
-  expect(csv).toContain('"Dette er en tekst, med et komma."');
+    const result = transformRow(rawRow as any);
+
+    expect(result["Barcode"]).toBe("7312600055469");
+  });
 });
