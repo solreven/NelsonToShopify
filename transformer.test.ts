@@ -1,6 +1,6 @@
 import { transformRow } from "./transformer";
 
-describe("Tests for article number", () => {
+describe("Tests for simple conversions", () => {
   test("An article number 5546 produces the EAN 5546", () => {
     const rawRow = { "Art.nr.": "5546" };
 
@@ -14,5 +14,20 @@ describe("Tests for article number", () => {
     const result = transformRow(rawRow as any);
 
     expect(result.SKU).toBeUndefined();
+  });
+
+  test("Benevnelse (no) 'navn' produces the Title 'navn'", () => {
+    const rawRow = { "Benevnelse (no)": "navn" };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result.Title).toBe("navn");
+  });
+  test("Empty benevnelse produces an undefined Title", () => {
+    const rawRow = { "Benevnelse (no)": "" };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result.Title).toBeUndefined();
   });
 });
