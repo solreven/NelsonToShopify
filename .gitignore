@@ -13,5 +13,5 @@ input_csv/
 *.log
 .DS_Store
 
-# Eventuelle kompilerte filer (hvis du begynner å bruke 'tsc')
+
 dist/
