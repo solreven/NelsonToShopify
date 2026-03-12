@@ -7,7 +7,9 @@ export interface ShopifyRow {
   "Image Src 3"?: string;
   "Image Src 4"?: string;
   "Body (HTML)"?: string;
-  Barcode?: string;
+  "Variant Barcode"?: string;
+  "Variant Weight"?: number;
+  "Variant Weight Unit"?: string;
 }
 
 export const transformRow = (row: any): ShopifyRow => {
@@ -19,6 +21,10 @@ export const transformRow = (row: any): ShopifyRow => {
   if (match) {
     finalPrice = Number(match[1]);
   }
+  const weightStr = row["Fraktvekt"]
+    ? String(row["Fraktvekt"]).replace(",", ".")
+    : undefined;
+  const weightNum = weightStr ? Number(weightStr) : undefined;
   return {
     Title: rawValueName ? String(rawValueName) : undefined,
     SKU: rawValue ? Number(rawValue) : undefined,
@@ -36,6 +42,10 @@ export const transformRow = (row: any): ShopifyRow => {
     "Image Src 4": row["ResourceUrl4"]
       ? String(row["ResourceUrl4"])
       : undefined,
-    Barcode: row["EAN"] ? String(row["EAN"]) : undefined,
+    "Variant Barcode": row["EAN"] ? String(row["EAN"]) : undefined,
+    "Variant Weight": weightNum,
+    "Variant Weight Unit": row["Fraktvekt måleenhet"]
+      ? String(row["Fraktvekt måleenhet"])
+      : undefined,
   };
 };

@@ -156,7 +156,7 @@ describe("Tester for EAN og produktvekt", () => {
 
     const result = transformRow(rawRow as any);
 
-    expect(result["Barcode"]).toBe("7312600055469");
+    expect(result["Variant Barcode"]).toBe("7312600055469");
   });
   test("Sjekker at udefinert EAN bare er udefinert", () => {
     const rawRow = {
@@ -165,6 +165,33 @@ describe("Tester for EAN og produktvekt", () => {
 
     const result = transformRow(rawRow as any);
 
-    expect(result["Barcode"]).toBeUndefined;
+    expect(result["Variant Barcode"]).toBeUndefined;
+  });
+  test("Mapper vekt til Variant Weight og sjekker at det ikke blir kluss med komma", () => {
+    const rawRow = {
+      Fraktvekt: "1,125",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result["Variant Weight"]).toBe(1.125);
+  });
+  test("Mapper vekt måleenhet til Variant Weight Unit", () => {
+    const rawRow = {
+      "Fraktvekt måleenhet": "kg",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result["Variant Weight Unit"]).toBe("kg");
+  });
+  test("Sjekker at udefinert EAN bare er udefinert", () => {
+    const rawRow = {
+      EAN: "",
+    };
+
+    const result = transformRow(rawRow as any);
+
+    expect(result["Variant Barcode"]).toBeUndefined;
   });
 });
