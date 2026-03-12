@@ -1,14 +1,13 @@
-# Dependencies
+
 node_modules/
 
-# Test coverage
 coverage/
 
-# Datafiler (viktig!)
+
 *.csv
 input_csv/
 
-# Midlertidige filer og backups
+
 *.bak
 *.log
 .DS_Store

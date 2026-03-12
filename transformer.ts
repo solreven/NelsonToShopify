@@ -21,6 +21,7 @@ export const transformRow = (row: any): ShopifyRow => {
   if (match) {
     finalPrice = Number(match[1]);
   }
+
   const weightStr = row["Fraktvekt"]
     ? String(row["Fraktvekt"]).replace(",", ".")
     : undefined;
