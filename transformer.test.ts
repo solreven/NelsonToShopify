@@ -195,3 +195,21 @@ describe("Tester for EAN og produktvekt", () => {
     expect(result["Variant Barcode"]).toBeUndefined;
   });
 });
+
+describe("Tester for frø og tomater", () => {
+  it("Returnerer en tom streng hvis alle beskrivelsesfeltene for såtid etc. er tomme", () => {
+    const reapWhatYouSow = {
+      beskrivelse: "",
+      såtid: "",
+      forkultivere: "",
+      // Sjekke at jeg ikke trenger flere keys med input-filene til tomater & frø
+    };
+
+    const result = transformRow(reapWhatYouSow as any);
+
+    expect(result["Body (HTML)"]).toBe("");
+  });
+
+  it.todo("Returnerer et felt hvis de andre mangler");
+  it.todo("Sammenfatter feltene for slik gjør du det, såtid og forkultivere");
+});
